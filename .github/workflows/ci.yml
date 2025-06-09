@@ -1,0 +1,28 @@
+name: Linux Backup Tool Test
+
+on: [push]
+
+jobs:
+  run-backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Simulate backup environment
+        run: |
+          mkdir -p tmp/source
+          mkdir -p tmp/outputs
+          echo "Important test data" > tmp/source/secret.txt
+
+      - name: Run backup script
+        run: |
+          python3 linux_backup.py --source tmp/source --target tmp/outputs || true
+
+      - name: Check outputs
+        run: |
+          echo "Output Files:"
+          ls -lh tmp/outputs
+
+          echo "Backup Log:"
+          cat tmp/outputs/backup_log.csv || echo "No log found"
