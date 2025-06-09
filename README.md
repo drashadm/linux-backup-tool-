@@ -6,7 +6,7 @@ A simple, secure, and modular backup script tailored for Linux environments such
 
 ## Project Overview
 
-This  project simulates a real-world Linux backup automation process:
+This project simulates a real-world Linux backup automation process:
 -  Archives critical files into timestamped ZIPs
 -  Excludes unwanted file types (e.g. logs, temp files)
 -  Logs every backup event into a structured `.csv`
