@@ -1,28 +1,39 @@
-name: Linux Backup Tool Test
+name: Linux Backup Tool CI
 
 on: [push]
 
 jobs:
   run-backup:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Simulate backup environment
+      - name: Prepare Folders and Sample Data
         run: |
           mkdir -p tmp/source
           mkdir -p tmp/outputs
-          echo "Important test data" > tmp/source/secret.txt
+          echo "Confidential config file" > tmp/source/creds.txt
+          echo "API_KEY=123456789" >> tmp/source/creds.txt
 
-      - name: Run backup script
+      - name: Run Linux Backup Tool
         run: |
           python3 linux_backup.py --source tmp/source --target tmp/outputs || true
 
-      - name: Check outputs
+      - name: Debug Output Folders
         run: |
           echo "Output Files:"
-          ls -lh tmp/outputs
+          ls -lh tmp/outputs || echo "No outputs folder found"
 
-          echo "Backup Log:"
-          cat tmp/outputs/backup_log.csv || echo "No log found"
+          echo "Backup Log Content:"
+          cat tmp/outputs/backup_log.csv || echo "Log not found"
+
+          echo "Root Directory Listing:"
+          ls -lh
+
+      - name: Upload Backup Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-backup-output
+          path: tmp/outputs/
