@@ -55,4 +55,9 @@ This project is maintained by drashadm. For feedback, collaboration, or contract
 
 ---
 
+## Disclaimer
+
+This tool is built for educational and demo purposes. Always test your backup setup before relying on it for production data.
+
+
 _“Security is not a product, but a process.” — Bruce Schneier_
